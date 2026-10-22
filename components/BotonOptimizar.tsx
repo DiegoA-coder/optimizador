@@ -36,7 +36,7 @@ export default function BotonOptimizar({
         fontSize: "1rem",
         fontWeight: 600,
         color: "#fff",
-        background: disabled ? "#9ab" : "#1a73e8",
+        background: disabled ? "#4a525e" : "var(--color-acento-fuerte)",
         border: "none",
         borderRadius: 6,
         cursor: disabled ? "not-allowed" : "pointer",

@@ -50,14 +50,14 @@ const estiloTablaInterna: React.CSSProperties = {
 const thIzq: React.CSSProperties = {
   textAlign: "left",
   padding: "0.3rem 0.5rem",
-  borderBottom: "1px solid #ccc",
+  borderBottom: "1px solid var(--color-borde)",
 };
 
 const thDer: React.CSSProperties = { ...thIzq, textAlign: "right" };
 
 const tdIzq: React.CSSProperties = {
   padding: "0.25rem 0.5rem",
-  borderBottom: "1px solid #eee",
+  borderBottom: "1px solid var(--color-borde-suave)",
 };
 
 const tdDer: React.CSSProperties = { ...tdIzq, textAlign: "right", whiteSpace: "nowrap" };
@@ -65,7 +65,7 @@ const tdDer: React.CSSProperties = { ...tdIzq, textAlign: "right", whiteSpace: "
 /** Lista de los vidrios a cortar de un panel, identificados por letra (A, B, C, ...). */
 function ListaCortesPanel({ panel }: { panel: Panel }) {
   if (panel.piezas.length === 0) {
-    return <p style={{ fontSize: "0.85rem", color: "#666" }}>Este panel no tiene piezas.</p>;
+    return <p style={{ fontSize: "0.85rem", color: "var(--color-texto-tenue)" }}>Este panel no tiene piezas.</p>;
   }
   return (
     <table style={estiloTablaInterna}>

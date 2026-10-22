@@ -32,13 +32,13 @@ const estiloTabla: React.CSSProperties = {
 const estiloTh: React.CSSProperties = {
   textAlign: "left",
   padding: "0.4rem 0.6rem",
-  borderBottom: "2px solid #999",
+  borderBottom: "2px solid var(--color-borde)",
   fontSize: "0.85rem",
 };
 
 const estiloTd: React.CSSProperties = {
   padding: "0.35rem 0.6rem",
-  borderBottom: "1px solid #ddd",
+  borderBottom: "1px solid var(--color-borde-suave)",
   verticalAlign: "top",
   fontSize: "0.85rem",
 };
@@ -52,13 +52,13 @@ function describirCortes(tira: Tira): string {
 
 export default function TablaTiras({ plan }: TablaTirasProps) {
   if (plan.perfiles.length === 0) {
-    return <p style={{ fontSize: "0.9rem", color: "#666" }}>No hay tiras de aluminio para mostrar.</p>;
+    return <p style={{ fontSize: "0.9rem", color: "var(--color-texto-tenue)" }}>No hay tiras de aluminio para mostrar.</p>;
   }
 
   return (
     <section aria-label="Plan de corte de aluminio">
       <h3 style={{ marginBottom: "0.25rem" }}>Plan de corte de aluminio</h3>
-      <p style={{ margin: "0 0 1rem", fontSize: "0.85rem", color: "#555" }}>
+      <p style={{ margin: "0 0 1rem", fontSize: "0.85rem", color: "var(--color-texto-tenue)" }}>
         Tira: {cm(plan.parametros.largoTiraCm)} cm · Sierra (kerf): {cm(plan.parametros.sierraCm)} cm
       </p>
 

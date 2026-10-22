@@ -18,8 +18,8 @@ import type { Ventana } from "@/lib/dominio/modelos";
 
 /** Campos numéricos de una ventana que la fila puede editar. */
 type CampoNumerico = "inferiorCm" | "lateralCm" | "cantidad";
-/** Campos de texto de una ventana que la fila puede editar. */
-type CampoTexto = "etiqueta" | "perfil";
+/** Campos de texto de una ventana que la fila puede editar. El perfil lo fija la pestaña, no la fila. */
+type CampoTexto = "etiqueta";
 
 export interface FilaVentanaProps {
   /** La ventana que esta fila representa. */
@@ -65,7 +65,7 @@ const estiloMensaje: React.CSSProperties = {
   display: "block",
   marginTop: 2,
   fontSize: "0.75rem",
-  color: "#b00020",
+  color: "var(--color-error-texto)",
 };
 
 /** Estilo base de los inputs; el borde se tiñe de rojo cuando el campo es inválido. */
@@ -73,9 +73,10 @@ function estiloInput(invalido: boolean): React.CSSProperties {
   return {
     width: "100%",
     padding: "0.25rem 0.4rem",
-    border: `1px solid ${invalido ? "#d33" : "#bbb"}`,
+    border: `1px solid ${invalido ? "var(--color-error-borde)" : "var(--color-borde)"}`,
     borderRadius: 4,
-    background: invalido ? "#fdecea" : "#fff",
+    background: invalido ? "var(--color-error-fondo)" : "var(--color-superficie)",
+    color: "var(--color-texto)",
   };
 }
 
@@ -92,7 +93,6 @@ export default function FilaVentana({ ventana, indice, onCambio, onEliminar }: F
   }
 
   const erEtiqueta = errorTexto(ventana.etiqueta);
-  const erPerfil = errorTexto(ventana.perfil);
   const erInferior = errorMedida(ventana.inferiorCm);
   const erLateral = errorMedida(ventana.lateralCm);
   const erCantidad = errorCantidad(ventana.cantidad);
@@ -111,17 +111,6 @@ export default function FilaVentana({ ventana, indice, onCambio, onEliminar }: F
           style={estiloInput(erEtiqueta !== null)}
         />
         {erEtiqueta !== null && <span style={estiloMensaje}>{erEtiqueta}</span>}
-      </td>
-
-      <td style={estiloCelda}>
-        <input
-          type="text"
-          aria-label={`Perfil de la ventana ${indice + 1}`}
-          value={ventana.perfil}
-          onChange={(e) => cambiarTexto("perfil", e.target.value)}
-          style={estiloInput(erPerfil !== null)}
-        />
-        {erPerfil !== null && <span style={estiloMensaje}>{erPerfil}</span>}
       </td>
 
       <td style={estiloCelda}>
@@ -170,10 +159,10 @@ export default function FilaVentana({ ventana, indice, onCambio, onEliminar }: F
           onClick={onEliminar}
           style={{
             padding: "0.25rem 0.6rem",
-            border: "1px solid #d33",
+            border: "1px solid var(--color-error-borde)",
             borderRadius: 4,
-            background: "#fff",
-            color: "#b00020",
+            background: "var(--color-superficie)",
+            color: "var(--color-error-texto)",
             cursor: "pointer",
           }}
         >

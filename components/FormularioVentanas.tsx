@@ -30,6 +30,11 @@ export type Serializar = typeof serializarVentanas;
 export interface FormularioVentanasProps {
   /** Lista de ventanas controlada por el componente padre. */
   ventanas: Ventana[];
+  /**
+   * Perfil (p. ej. "2PULG" o "3PULG") al que pertenecen todas las ventanas de este formulario.
+   * Lo fija la pestaña activa: las ventanas nuevas lo heredan y el usuario no puede combinarlo.
+   */
+  perfil: string;
   /** Se invoca con la lista completa actualizada ante cualquier cambio (agregar, editar, eliminar). */
   onCambio: (ventanas: Ventana[]) => void;
   /** Se invoca con el archivo elegido por el usuario para importar un `ventanas.json`. */
@@ -38,11 +43,14 @@ export interface FormularioVentanasProps {
   onExportarJson: () => void;
 }
 
-/** Ventana nueva por defecto al agregar una fila: todo en blanco para que el usuario la complete. */
-function ventanaVacia(): Ventana {
+/**
+ * Ventana nueva por defecto al agregar una fila: campos en blanco para que el usuario los
+ * complete, con el perfil fijado por la pestaña activa (no editable en la fila).
+ */
+function ventanaVacia(perfil: string): Ventana {
   return {
     etiqueta: "",
-    perfil: "",
+    perfil,
     inferiorCm: Number.NaN,
     lateralCm: Number.NaN,
     cantidad: 1,
@@ -53,7 +61,6 @@ function ventanaVacia(): Ventana {
 function ventanaValida(v: Ventana): boolean {
   return (
     v.etiqueta.trim().length > 0 &&
-    v.perfil.trim().length > 0 &&
     Number.isFinite(v.inferiorCm) &&
     v.inferiorCm > 0 &&
     Number.isFinite(v.lateralCm) &&
@@ -67,30 +74,31 @@ function ventanaValida(v: Ventana): boolean {
 const estiloEncabezado: React.CSSProperties = {
   textAlign: "left",
   padding: "0.25rem 0.5rem",
-  borderBottom: "2px solid #ddd",
+  borderBottom: "2px solid var(--color-borde)",
   fontSize: "0.85rem",
 };
 
 const estiloBoton: React.CSSProperties = {
   padding: "0.4rem 0.8rem",
-  border: "1px solid #0a66c2",
+  border: "1px solid var(--color-acento-fuerte)",
   borderRadius: 4,
-  background: "#0a66c2",
+  background: "var(--color-acento-fuerte)",
   color: "#fff",
   cursor: "pointer",
 };
 
 const estiloBotonSecundario: React.CSSProperties = {
   padding: "0.4rem 0.8rem",
-  border: "1px solid #0a66c2",
+  border: "1px solid var(--color-acento)",
   borderRadius: 4,
-  background: "#fff",
-  color: "#0a66c2",
+  background: "transparent",
+  color: "var(--color-acento)",
   cursor: "pointer",
 };
 
 export default function FormularioVentanas({
   ventanas,
+  perfil,
   onCambio,
   onImportarJson,
   onExportarJson,
@@ -98,7 +106,7 @@ export default function FormularioVentanas({
   const inputArchivo = useRef<HTMLInputElement>(null);
 
   function agregarFila() {
-    onCambio([...ventanas, ventanaVacia()]);
+    onCambio([...ventanas, ventanaVacia(perfil)]);
   }
 
   function eliminarFila(indice: number) {
@@ -163,7 +171,6 @@ export default function FormularioVentanas({
           <thead>
             <tr>
               <th style={estiloEncabezado}>Etiqueta</th>
-              <th style={estiloEncabezado}>Perfil</th>
               <th style={estiloEncabezado}>Inferior (cm)</th>
               <th style={estiloEncabezado}>Lateral (cm)</th>
               <th style={estiloEncabezado}>Cantidad</th>
@@ -186,7 +193,7 @@ export default function FormularioVentanas({
 
       {/* Resumen de validación: avisa si alguna fila tiene datos inválidos. */}
       {invalidas > 0 && (
-        <p role="alert" style={{ marginTop: "0.75rem", color: "#b00020", fontSize: "0.85rem" }}>
+        <p role="alert" style={{ marginTop: "0.75rem", color: "var(--color-error-texto)", fontSize: "0.85rem" }}>
           {invalidas === 1
             ? "1 ventana tiene datos inválidos. Corrige los campos marcados."
             : `${invalidas} ventanas tienen datos inválidos. Corrige los campos marcados.`}

@@ -71,7 +71,7 @@ export default function EsquemaCorteVidrio({ plan, escala }: EsquemaCorteVidrioP
     >
       {plan.paneles.map((panel, i) => (
         <figure key={i} className="esquema-corte-panel" style={{ margin: 0 }}>
-          <figcaption style={{ fontSize: "0.85rem", marginBottom: 4, color: "#444" }}>
+          <figcaption style={{ fontSize: "0.85rem", marginBottom: 4, color: "var(--color-texto-tenue)" }}>
             Panel {i + 1} ({panel.piezas.length} pieza(s))
           </figcaption>
           <PanelSvg panel={panel} escala={escalaPx} indice={i + 1} />

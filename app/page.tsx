@@ -34,9 +34,9 @@ const PANTALLAS: Pantalla[] = [
 const estiloTarjeta: CSSProperties = {
   display: "block",
   padding: "1.25rem 1.5rem",
-  border: "1px solid #d7dbe0",
+  border: "1px solid var(--color-borde)",
   borderRadius: 10,
-  background: "#f7f9fb",
+  background: "var(--color-superficie)",
   color: "inherit",
   textDecoration: "none",
 };
@@ -45,7 +45,7 @@ export default function PaginaMenu() {
   return (
     <main style={{ padding: "2rem", maxWidth: 760, margin: "0 auto" }}>
       <h1>Optimizador de Corte</h1>
-      <p style={{ color: "#555", marginTop: 0 }}>Elige una herramienta para empezar.</p>
+      <p style={{ color: "var(--color-texto-tenue)", marginTop: 0 }}>Elige una herramienta para empezar.</p>
 
       <nav
         aria-label="Pantallas disponibles"
@@ -58,10 +58,10 @@ export default function PaginaMenu() {
       >
         {PANTALLAS.map((pantalla) => (
           <Link key={pantalla.href} href={pantalla.href} style={estiloTarjeta}>
-            <h2 style={{ margin: "0 0 0.4rem", fontSize: "1.15rem", color: "#14425f" }}>
+            <h2 style={{ margin: "0 0 0.4rem", fontSize: "1.15rem", color: "var(--color-acento)" }}>
               {pantalla.titulo}
             </h2>
-            <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>{pantalla.descripcion}</p>
+            <p style={{ margin: 0, fontSize: "0.9rem", color: "var(--color-texto-tenue)" }}>{pantalla.descripcion}</p>
           </Link>
         ))}
       </nav>

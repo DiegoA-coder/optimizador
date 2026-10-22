@@ -26,13 +26,13 @@ const estiloTabla: React.CSSProperties = {
 const estiloTh: React.CSSProperties = {
   textAlign: "left",
   padding: "0.4rem 0.6rem",
-  borderBottom: "2px solid #999",
+  borderBottom: "2px solid var(--color-borde)",
   fontSize: "0.85rem",
 };
 
 const estiloTd: React.CSSProperties = {
   padding: "0.35rem 0.6rem",
-  borderBottom: "1px solid #ddd",
+  borderBottom: "1px solid var(--color-borde-suave)",
   verticalAlign: "top",
   fontSize: "0.85rem",
 };
@@ -43,7 +43,7 @@ export default function TablaCortesPorVentana({ piezas }: TablaCortesPorVentanaP
   const ventanas = agruparPorVentana(piezas);
 
   if (ventanas.length === 0) {
-    return <p style={{ fontSize: "0.9rem", color: "#666" }}>No hay cortes para mostrar.</p>;
+    return <p style={{ fontSize: "0.9rem", color: "var(--color-texto-tenue)" }}>No hay cortes para mostrar.</p>;
   }
 
   return (

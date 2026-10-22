@@ -1,3 +1,20 @@
+:root {
+  /* Paleta dark (no tan oscura): grises azulados suaves con buen contraste. */
+  --color-fondo: #1e2228;
+  --color-superficie: #272c34;
+  --color-superficie-alt: #2f353e;
+  --color-borde: #3a414c;
+  --color-borde-suave: #333942;
+  --color-texto: #e4e7eb;
+  --color-texto-tenue: #a9b1bd;
+  --color-texto-sutil: #8b94a1;
+  --color-acento: #5aa0f0;
+  --color-acento-fuerte: #3b82f6;
+  --color-error-fondo: #3a2322;
+  --color-error-borde: #7a3b38;
+  --color-error-texto: #f1a7a2;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -15,6 +32,211 @@ body {
     Arial,
     sans-serif;
   line-height: 1.5;
-  color: #1a1a1a;
-  background: #ffffff;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+a {
+  color: var(--color-acento);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-texto);
+}
+
+/* --- Controles de formulario --------------------------------------------- */
+input,
+select,
+textarea {
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  border: 1px solid var(--color-borde);
+  border-radius: 4px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-texto-sutil);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-acento);
+}
+
+fieldset {
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+}
+
+legend {
+  color: var(--color-texto-tenue);
+}
+
+label {
+  color: var(--color-texto);
+}
+
+button {
+  background: var(--color-superficie-alt);
+  color: var(--color-texto);
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--color-acento);
+}
+
+/* --- Tablas -------------------------------------------------------------- */
+table {
+  color: var(--color-texto);
+}
+
+th {
+  color: var(--color-texto-tenue);
+}
+
+/* --- Panel de configuración desplegable ---------------------------------- */
+.panel-configuracion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel-configuracion__chevron {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  color: var(--color-texto-tenue);
+}
+
+.panel-configuracion[open] > summary .panel-configuracion__chevron {
+  transform: rotate(90deg);
+}
+
+/* --- Editor de reglas: cada perfil es un submenú colapsable --------------- */
+.editor-reglas__perfil {
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  margin: 0.75rem 0;
+  overflow: hidden;
+}
+
+.editor-reglas__perfil > summary.editor-reglas__perfil-titulo {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+  background: var(--color-superficie-alt);
+  color: var(--color-texto);
+}
+
+.editor-reglas__perfil > summary.editor-reglas__perfil-titulo::-webkit-details-marker {
+  display: none;
+}
+
+.editor-reglas__perfil-conteo {
+  margin-left: auto;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--color-texto-tenue);
+}
+
+.editor-reglas__chevron {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  color: var(--color-texto-tenue);
+}
+
+.editor-reglas__perfil[open] > summary .editor-reglas__chevron {
+  transform: rotate(90deg);
+}
+
+.editor-reglas__tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+}
+
+.editor-reglas__tabla th,
+.editor-reglas__tabla td {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--color-borde-suave);
+  text-align: left;
+}
+
+.editor-reglas__tabla input,
+.editor-reglas__tabla select {
+  width: 100%;
+}
+
+.editor-reglas__fila--invalida td {
+  background: var(--color-error-fondo);
+}
+
+.editor-reglas__errores {
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+  color: var(--color-error-texto);
+  font-size: 0.8rem;
+}
+
+.editor-reglas__perfil > button,
+.editor-reglas__tabla + button,
+.editor-reglas__vacio + button {
+  margin: 0 0.9rem 0.9rem;
+}
+
+.editor-reglas__vacio {
+  color: var(--color-texto-tenue);
+  padding: 0 0.9rem;
+}
+
+/* --- Pestañas de perfil (2 pulgadas / 3 pulgadas) ------------------------ */
+.pestanas-perfil {
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.pestana-perfil {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--color-borde);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: var(--color-superficie);
+  color: var(--color-texto-tenue);
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+
+.pestana-perfil:hover {
+  color: var(--color-texto);
+}
+
+.pestana-perfil--activa {
+  background: var(--color-acento-fuerte);
+  color: #ffffff;
+  border-color: var(--color-acento-fuerte);
+  border-bottom: 1px solid var(--color-acento-fuerte);
+  box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.35);
+}
+
+.pestana-perfil--activa:hover {
+  color: #ffffff;
+}
+
+.panel-perfil {
+  border: 1px solid var(--color-borde);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 1.25rem;
+  background: var(--color-fondo);
 }

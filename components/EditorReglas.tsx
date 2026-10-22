@@ -17,6 +17,12 @@ export interface EditorReglasProps {
   reglasPorPerfil: Record<string, ReglaCorte[]>;
   /** Se invoca con el mapa completo de reglas tras cada cambio. */
   onCambio: (reglasPorPerfil: Record<string, ReglaCorte[]>) => void;
+  /**
+   * Si se indica, el editor muestra SOLO las reglas de ese perfil (p. ej. el de la pestaña
+   * activa). Si se omite, muestra todos los perfiles. Los cambios siguen conservando el resto
+   * de perfiles del mapa.
+   */
+  perfilFiltro?: string;
 }
 
 /** Regla por defecto que se agrega al pulsar "Agregar regla". */
@@ -56,8 +62,15 @@ function aNumero(valor: string): number {
   return Number(valor);
 }
 
-export default function EditorReglas({ reglasPorPerfil, onCambio }: EditorReglasProps) {
-  const perfiles = useMemo(() => Object.keys(reglasPorPerfil), [reglasPorPerfil]);
+export default function EditorReglas({ reglasPorPerfil, onCambio, perfilFiltro }: EditorReglasProps) {
+  // Perfiles a mostrar: solo el filtrado (si se indica y existe) o todos los del mapa.
+  const perfiles = useMemo(() => {
+    const todos = Object.keys(reglasPorPerfil);
+    if (perfilFiltro != null) {
+      return todos.filter((p) => p === perfilFiltro);
+    }
+    return todos;
+  }, [reglasPorPerfil, perfilFiltro]);
 
   /** Reemplaza las reglas de un perfil y notifica el cambio. */
   function setReglasPerfil(perfil: string, reglas: ReglaCorte[]): void {
@@ -95,8 +108,16 @@ export default function EditorReglas({ reglasPorPerfil, onCambio }: EditorReglas
       {perfiles.map((perfil) => {
         const reglas = reglasPorPerfil[perfil] ?? [];
         return (
-          <fieldset key={perfil} className="editor-reglas__perfil">
-            <legend>Perfil: {perfil}</legend>
+          <details key={perfil} className="editor-reglas__perfil" open>
+            <summary className="editor-reglas__perfil-titulo">
+              <span aria-hidden="true" className="editor-reglas__chevron">
+                ▸
+              </span>
+              Perfil: {perfil}
+              <span className="editor-reglas__perfil-conteo">
+                {reglas.length} regla(s)
+              </span>
+            </summary>
 
             {reglas.length === 0 ? (
               <p className="editor-reglas__vacio">Este perfil no tiene reglas.</p>
@@ -215,7 +236,7 @@ export default function EditorReglas({ reglasPorPerfil, onCambio }: EditorReglas
             >
               Agregar regla
             </button>
-          </fieldset>
+          </details>
         );
       })}
     </section>

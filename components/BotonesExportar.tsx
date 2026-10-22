@@ -59,9 +59,9 @@ export default function BotonesExportar({ resultado }: BotonesExportarProps) {
     padding: "0.6rem 1.2rem",
     fontSize: "1rem",
     fontWeight: 600,
-    color: "#1a73e8",
-    background: "#fff",
-    border: "1px solid #1a73e8",
+    color: "var(--color-acento)",
+    background: "transparent",
+    border: "1px solid var(--color-acento)",
     borderRadius: 6,
     cursor: "pointer",
   };

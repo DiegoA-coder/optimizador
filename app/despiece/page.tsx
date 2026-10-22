@@ -91,8 +91,10 @@ function aprovechamiento(tiras: Tira[], largoBarraCm: number): number {
 const estiloInput: React.CSSProperties = {
   width: "100%",
   padding: "0.35rem 0.5rem",
-  border: "1px solid #bcc3cc",
+  border: "1px solid var(--color-borde)",
   borderRadius: 5,
+  background: "var(--color-superficie)",
+  color: "var(--color-texto)",
 };
 
 export default function PaginaDespiece() {
@@ -180,12 +182,12 @@ export default function PaginaDespiece() {
   return (
     <main style={{ padding: "2rem", maxWidth: 1040, margin: "0 auto" }}>
       <p style={{ margin: "0 0 0.5rem" }}>
-        <Link href="/" style={{ color: "#1a73e8", textDecoration: "none" }}>
+        <Link href="/" style={{ color: "var(--color-acento)", textDecoration: "none" }}>
           ← Menú
         </Link>
       </p>
       <h1>Despiece por perfil (1D)</h1>
-      <p style={{ color: "#555", marginTop: 0 }}>
+      <p style={{ color: "var(--color-texto-tenue)", marginTop: 0 }}>
         Carga el largo de la barra, la sierra y las piezas necesarias para obtener el mapa de corte en 2D.
       </p>
 
@@ -195,10 +197,10 @@ export default function PaginaDespiece() {
           style={{
             margin: "1rem 0",
             padding: "0.75rem 1rem",
-            border: "1px solid #d33",
+            border: "1px solid var(--color-error-borde)",
             borderRadius: 6,
-            background: "#fdecea",
-            color: "#611a15",
+            background: "var(--color-error-fondo)",
+            color: "var(--color-error-texto)",
           }}
         >
           {error}
@@ -241,11 +243,11 @@ export default function PaginaDespiece() {
         <table style={{ width: "100%", maxWidth: 560, borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "#555", padding: "0.25rem" }}>Etiqueta</th>
-              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "#555", padding: "0.25rem" }}>
+              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "var(--color-texto-tenue)", padding: "0.25rem" }}>Etiqueta</th>
+              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "var(--color-texto-tenue)", padding: "0.25rem" }}>
                 Longitud (cm)
               </th>
-              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "#555", padding: "0.25rem" }}>Cant.</th>
+              <th style={{ textAlign: "left", fontSize: "0.8rem", color: "var(--color-texto-tenue)", padding: "0.25rem" }}>Cant.</th>
               <th />
             </tr>
           </thead>
@@ -291,10 +293,10 @@ export default function PaginaDespiece() {
                     onClick={() => eliminarFila(i)}
                     style={{
                       padding: "0.3rem 0.6rem",
-                      border: "1px solid #d33",
+                      border: "1px solid var(--color-error-borde)",
                       borderRadius: 5,
-                      background: "#fff",
-                      color: "#b00020",
+                      background: "var(--color-superficie)",
+                      color: "var(--color-error-texto)",
                       cursor: "pointer",
                     }}
                   >
@@ -312,10 +314,10 @@ export default function PaginaDespiece() {
             onClick={agregarFila}
             style={{
               padding: "0.5rem 1rem",
-              border: "none",
+              border: "1px solid var(--color-borde)",
               borderRadius: 6,
-              background: "#e2e7ee",
-              color: "#223",
+              background: "var(--color-superficie-alt)",
+              color: "var(--color-texto)",
               cursor: "pointer",
             }}
           >
@@ -328,7 +330,7 @@ export default function PaginaDespiece() {
               padding: "0.5rem 1.2rem",
               border: "none",
               borderRadius: 6,
-              background: "#1a73e8",
+              background: "var(--color-acento-fuerte)",
               color: "#fff",
               fontWeight: 600,
               cursor: "pointer",
@@ -342,7 +344,7 @@ export default function PaginaDespiece() {
       <section aria-label="Mapa de corte 2D" style={{ marginTop: "2rem" }}>
         <h2 style={{ fontSize: "1.1rem" }}>Mapa de corte 2D</h2>
         {resultado === null ? (
-          <p style={{ color: "#777" }}>Agrega piezas y pulsa «Calcular corte» para ver el mapa.</p>
+          <p style={{ color: "var(--color-texto-sutil)" }}>Agrega piezas y pulsa «Calcular corte» para ver el mapa.</p>
         ) : (
           <>
             <div
@@ -350,8 +352,8 @@ export default function PaginaDespiece() {
                 display: "flex",
                 flexWrap: "wrap",
                 gap: "1.5rem",
-                background: "#f2f4f7",
-                border: "1px solid #d7dbe0",
+                background: "var(--color-superficie)",
+                border: "1px solid var(--color-borde)",
                 borderRadius: 6,
                 padding: "0.75rem 1rem",
                 marginBottom: "1rem",
@@ -376,10 +378,10 @@ export default function PaginaDespiece() {
                 style={{
                   marginLeft: "auto",
                   padding: "0.4rem 1rem",
-                  border: "1px solid #1a73e8",
+                  border: "1px solid var(--color-acento)",
                   borderRadius: 6,
-                  background: "#fff",
-                  color: "#1a73e8",
+                  background: "transparent",
+                  color: "var(--color-acento)",
                   fontWeight: 600,
                   cursor: "pointer",
                 }}

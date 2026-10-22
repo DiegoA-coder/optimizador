@@ -43,7 +43,7 @@ function colorPieza(indice: number): string {
 
 export default function MapaCorteBarras({ tiras, largoBarraCm, sierraCm }: MapaCorteBarrasProps) {
   if (tiras.length === 0) {
-    return <p style={{ fontSize: "0.9rem", color: "#666" }}>No hay barras para mostrar.</p>;
+    return <p style={{ fontSize: "0.9rem", color: "var(--color-texto-tenue)" }}>No hay barras para mostrar.</p>;
   }
 
   const escala = ANCHO_PX / largoBarraCm; // px por cm
@@ -55,7 +55,7 @@ export default function MapaCorteBarras({ tiras, largoBarraCm, sierraCm }: MapaC
     >
       {tiras.map((tira, i) => (
         <figure key={i} style={{ margin: 0 }}>
-          <figcaption style={{ fontSize: "0.85rem", marginBottom: 4, color: "#444" }}>
+          <figcaption style={{ fontSize: "0.85rem", marginBottom: 4, color: "var(--color-texto-tenue)" }}>
             Barra {i + 1} — usado {cm(usadoCm(tira))} cm · sobrante {cm(tira.restanteCm)} cm
           </figcaption>
           <BarraSvg tira={tira} largoBarraCm={largoBarraCm} sierraCm={sierraCm} escala={escala} indice={i + 1} />
