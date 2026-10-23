@@ -22,7 +22,7 @@ import {
   totalPiezas,
   aprovechamientoPct,
 } from "@/lib/dominio/planVidrio";
-import { usadoCm } from "@/lib/dominio/tira";
+import { Tira, usadoCm } from "@/lib/dominio/tira";
 import { agruparPorVentana } from "@/lib/dominio/cortesPorVentana";
 import { areaDesperdicioCm2 } from "@/lib/dominio/modelos";
 import {
@@ -115,6 +115,25 @@ export function generarHtml(r: ResultadoCompleto): string {
       }
     }
     h.push("</tbody>\n</table>\n");
+
+    // ---- Mapa de corte visual por barra (una fila por tira, con colores) ----
+    if (porMaterial !== undefined) {
+      for (const [material, tiras] of porMaterial) {
+        h.push('<p class="barra-material">', esc(material), " — ", String(tiras.length), " barra(s)</p>\n");
+        tiras.forEach((tira, i) => {
+          h.push(
+            '<p class="barra-cap">Barra ',
+            String(i + 1),
+            " — usado ",
+            cm(usadoCm(tira)),
+            " cm · sobrante ",
+            cm(tira.restanteCm),
+            " cm</p>\n",
+            barraSvg(tira, p.largoTiraCm, p.sierraCm),
+          );
+        });
+      }
+    }
   }
 
   // ---- Cortes por ventana ----
@@ -263,6 +282,67 @@ function esquemaSvg(panel: Panel, p: ParametrosVidrio): string {
   return svg.join("");
 }
 
+/** Ancho del dibujo de cada barra de aluminio en el reporte (px) y su alto fijo. */
+const BARRA_ANCHO_PX = 760;
+const BARRA_ALTO_PX = 54;
+
+/** Tono de relleno de cada corte, igual que `MapaCorteBarras`/`reporteDespiece` para coherencia. */
+function colorPieza(indice: number): string {
+  const colores = ["#cfe3f7", "#d6f0d6", "#f7e6c8", "#e6d6f0", "#f7d6e0", "#d6f0ee", "#e8ecc8"];
+  return colores[indice % colores.length];
+}
+
+/**
+ * Dibuja una tira (barra de aluminio) a escala en SVG: sus cortes de izquierda a derecha con
+ * colores y el sobrante marcado al final. Reproduce el mapa de la pantalla (MapaCorteBarras) para
+ * que el PDF coincida con lo que se ve.
+ */
+function barraSvg(tira: Tira, largoBarraCm: number, sierraCm: number): string {
+  const escala = BARRA_ANCHO_PX / largoBarraCm; // px por cm
+  const svg: string[] = [];
+  svg.push(
+    `<svg class="barra" width="${BARRA_ANCHO_PX}" height="${BARRA_ALTO_PX}" viewBox="0 0 ${BARRA_ANCHO_PX} ${BARRA_ALTO_PX}">\n`,
+  );
+  // Fondo de la barra (largo nominal completo).
+  svg.push(
+    `<rect x="0" y="0" width="${f1(largoBarraCm * escala)}" height="${BARRA_ALTO_PX}" class="barra-fondo"/>\n`,
+  );
+
+  // Cortes acumulando longitud + sierra, igual que el consumo real de la tira.
+  let xCm = 0;
+  tira.piezas.forEach((pz, idx) => {
+    const x = xCm * escala;
+    const w = pz.longitudCm * escala;
+    const cx = x + w / 2;
+    svg.push(
+      `<rect x="${f1(x)}" y="4" width="${f1(Math.max(w, 1))}" height="${BARRA_ALTO_PX - 8}" ` +
+        `class="barra-pieza" fill="${colorPieza(idx)}"/>\n`,
+      `<text x="${f1(cx)}" y="${BARRA_ALTO_PX / 2 - 2}" class="barra-etq">${esc(
+        pz.etiquetaVentana || "Pieza",
+      )}</text>\n`,
+      `<text x="${f1(cx)}" y="${BARRA_ALTO_PX / 2 + 12}" class="barra-med">${cm(pz.longitudCm)} cm</text>\n`,
+    );
+    xCm += pz.longitudCm + sierraCm;
+  });
+
+  // Sobrante al final de la barra (si queda espacio).
+  const usadoConSierra = tira.piezas.reduce((acc, pz) => acc + pz.longitudCm + sierraCm, 0);
+  const sobranteCm = Math.max(largoBarraCm - usadoConSierra, 0);
+  if (sobranteCm > 0) {
+    const x = usadoConSierra * escala;
+    const w = sobranteCm * escala;
+    svg.push(
+      `<rect x="${f1(x)}" y="4" width="${f1(w)}" height="${BARRA_ALTO_PX - 8}" class="barra-sobra"/>\n`,
+      `<text x="${f1(x + w / 2)}" y="${BARRA_ALTO_PX / 2 + 4}" class="barra-sobra-txt">${cm(
+        tira.restanteCm,
+      )} cm</text>\n`,
+    );
+  }
+
+  svg.push("</svg>\n");
+  return svg.join("");
+}
+
 /** Formatea un número a 1 decimal con punto (equivale a String.format(Locale.US, "%.1f", v)). */
 function f1(valor: number): string {
   return valor.toFixed(1);
@@ -296,6 +376,16 @@ tbody tr:nth-child(even) { background: #f7f9fb; }
 .esquema .pieza { fill: #cfe3f7; stroke: #2f6ca3; stroke-width: 1.2; }
 .esquema .etq { font: bold 12px Arial; fill: #14425f; text-anchor: middle; }
 .esquema .med { font: 10px Arial; fill: #333; text-anchor: middle; }
+.barra-material { margin: 10px 0 2px; font-weight: bold; font-size: 0.9em; color: #444; }
+.barra-cap { margin: 4px 0 2px; font-size: 0.82em; color: #555; }
+.barra { width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;
+         background: #fafafa; margin-bottom: 8px; }
+.barra .barra-fondo { fill: #ece3cc; stroke: #b9ad8a; stroke-width: 1; }
+.barra .barra-pieza { stroke: #2f6ca3; stroke-width: 1; }
+.barra .barra-sobra { fill: #f6cccc; stroke: #d89a9a; stroke-width: 1; }
+.barra .barra-etq { font: bold 11px Arial; fill: #0f2f44; text-anchor: middle; }
+.barra .barra-med { font: 10px Arial; fill: #1a1a1a; text-anchor: middle; }
+.barra .barra-sobra-txt { font: 10px Arial; fill: #8a2b2b; text-anchor: middle; }
 @media print {
   body { margin: 0; }
   @page { size: A4; margin: 14mm; }

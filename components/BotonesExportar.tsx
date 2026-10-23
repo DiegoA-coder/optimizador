@@ -12,47 +12,42 @@
 // _Requirements: 9.1, 9.2, 9.3_
 
 import type { ResultadoCompleto } from "@/lib/dominio/modelos";
-import { generarJson } from "@/lib/io/reporteJson";
-import { generarTexto } from "@/lib/io/reporteTexto";
 import { generarHtml } from "@/lib/io/reporteHtml";
 
 interface BotonesExportarProps {
-  /** Resultado completo del pipeline a partir del cual se generan los reportes. */
+  /** Resultado completo del pipeline a partir del cual se genera el reporte. */
   resultado: ResultadoCompleto;
+  /**
+   * Se invoca si el navegador bloquea la ventana emergente del PDF, para que la pantalla muestre
+   * el aviso en su banner de error. Opcional.
+   */
+  onError?: (mensaje: string) => void;
 }
 
 /**
- * Dispara en el navegador la descarga de un archivo con el `contenido`, nombre `nombreArchivo`
- * y tipo MIME `tipoMime`. Crea un Blob, una URL de objeto y un ancla temporal; tras el clic
- * revoca la URL para liberar memoria.
+ * Botón de exportación a PDF. Genera el reporte HTML imprimible (A4) con el mismo resumen,
+ * tablas y esquema de corte que muestra la pantalla, lo abre en una ventana nueva y dispara el
+ * diálogo de impresión del navegador, donde el usuario elige "Guardar como PDF". Reproduce el
+ * mismo flujo que la exportación a PDF de la pantalla de despiece 1D.
  */
-function descargarArchivo(contenido: string, nombreArchivo: string, tipoMime: string): void {
-  const blob = new Blob([contenido], { type: tipoMime });
-  const url = URL.createObjectURL(blob);
-  const ancla = document.createElement("a");
-  ancla.href = url;
-  ancla.download = nombreArchivo;
-  document.body.appendChild(ancla);
-  ancla.click();
-  document.body.removeChild(ancla);
-  URL.revokeObjectURL(url);
-}
-
-/**
- * Botones de exportación. Cada botón genera el reporte correspondiente a partir de `resultado`
- * y lanza su descarga en el cliente.
- */
-export default function BotonesExportar({ resultado }: BotonesExportarProps) {
-  const exportarJson = () => {
-    descargarArchivo(generarJson(resultado), "resultado.json", "application/json");
-  };
-
-  const exportarHtml = () => {
-    descargarArchivo(generarHtml(resultado), "resultado.html", "text/html");
-  };
-
-  const exportarTexto = () => {
-    descargarArchivo(generarTexto(resultado), "resultado.txt", "text/plain");
+export default function BotonesExportar({ resultado, onError }: BotonesExportarProps) {
+  const exportarPdf = () => {
+    const html = generarHtml(resultado);
+    const ventana = window.open("", "_blank");
+    if (ventana === null) {
+      onError?.(
+        "El navegador bloqueó la ventana para el PDF. Permite las ventanas emergentes e inténtalo de nuevo.",
+      );
+      return;
+    }
+    ventana.document.open();
+    ventana.document.write(html);
+    ventana.document.close();
+    // Esperar a que el contenido (y el SVG) se renderice antes de abrir el diálogo de impresión.
+    ventana.onload = () => {
+      ventana.focus();
+      ventana.print();
+    };
   };
 
   const estiloBoton: React.CSSProperties = {
@@ -68,14 +63,8 @@ export default function BotonesExportar({ resultado }: BotonesExportarProps) {
 
   return (
     <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-      <button type="button" onClick={exportarJson} style={estiloBoton}>
-        Exportar JSON
-      </button>
-      <button type="button" onClick={exportarHtml} style={estiloBoton}>
-        Exportar HTML
-      </button>
-      <button type="button" onClick={exportarTexto} style={estiloBoton}>
-        Exportar texto
+      <button type="button" onClick={exportarPdf} style={estiloBoton}>
+        Exportar PDF
       </button>
     </div>
   );

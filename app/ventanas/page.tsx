@@ -356,7 +356,10 @@ export default function PaginaVentanas() {
             <p>Aún no se ha ejecutado la optimización.</p>
           ) : (
             <>
-              <BotonesExportar resultado={estadoActivo.resultado} />
+              <BotonesExportar
+                resultado={estadoActivo.resultado}
+                onError={(mensaje) => actualizarPerfil(perfilActivo, { error: mensaje })}
+              />
               <PanelResultados resultado={estadoActivo.resultado} />
             </>
           )}
