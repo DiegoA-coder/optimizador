@@ -1,5 +1,5 @@
 // lib/dominio/tira.ts
-// Tira (barra) de aluminio en estilo funcional. Porta la clase `modelo.Tira` del proyecto Java.
+// Tira (Perfil) de aluminio en estilo funcional. Porta la clase `modelo.Tira` del proyecto Java.
 //
 // Invariante de capacidad: la capacidad efectiva de la tira es `largo + sierra`, y cada pieza
 // consume `longitud + sierra`. Así el último corte no cuenta la sierra doble y el sobrante
@@ -62,7 +62,7 @@ export function restanteCm(tira: Tira): number {
 }
 
 /**
- * Longitud total consumida de la barra (incluye el ancho de sierra de cada corte):
+ * Longitud total consumida de la Perfil (incluye el ancho de sierra de cada corte):
  * `redondear(capacidadEfectiva - restanteCm)`. Porta `Tira.usadoCm`.
  */
 export function usadoCm(tira: Tira): number {

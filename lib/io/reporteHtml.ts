@@ -122,7 +122,7 @@ export function generarHtml(r: ResultadoCompleto): string {
         h.push('<p class="barra-material">', esc(material), " — ", String(tiras.length), " barra(s)</p>\n");
         tiras.forEach((tira, i) => {
           h.push(
-            '<p class="barra-cap">Barra ',
+            '<p class="barra-cap">Perfil ',
             String(i + 1),
             " — usado ",
             cm(usadoCm(tira)),
@@ -136,27 +136,6 @@ export function generarHtml(r: ResultadoCompleto): string {
     }
   }
 
-  // ---- Cortes por ventana ----
-  h.push('<h2 class="page-break">Cortes por ventana</h2>\n');
-  for (const vt of agruparPorVentana(r.piezas)) {
-    h.push(
-      "<h3>",
-      esc(vt.etiqueta),
-      " <small>(",
-      esc(vt.perfil),
-      ", ",
-      String(vt.totalPiezas),
-      " pieza(s))</small></h3>\n",
-    );
-    h.push("<table>\n<thead><tr><th>Material</th><th>Piezas</th></tr></thead>\n<tbody>\n");
-    for (const material of Object.keys(vt.porMaterial)) {
-      const piezasStr = vt.porMaterial[material]
-        .map((a) => `${a.cantidad} &times; ${cm(a.longitudCm)} cm`)
-        .join(", ");
-      h.push("<tr><td>", esc(material), "</td>", "<td>", piezasStr, "</td></tr>\n");
-    }
-    h.push("</tbody>\n</table>\n");
-  }
 
   // ---- Vidrio: tabla de paneles + esquema de corte visual ----
   agregarVidrio(h, planVidrio);

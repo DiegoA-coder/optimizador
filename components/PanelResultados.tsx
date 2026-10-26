@@ -5,7 +5,7 @@
 // `ResultadoCompleto` que entrega el pipeline. Pasa a cada hija la porción del resultado
 // que le corresponde:
 //   - TablaTiras            → plan de corte de aluminio (resultado.planCorte)
-//   - MapaCorteAluminio     → mapa visual por barra, con colores, del plan de aluminio (resultado.planCorte)
+//   - MapaCorteAluminio     → mapa visual por Perfil, con colores, del plan de aluminio (resultado.planCorte)
 //   - TablaCortesPorVentana → despiece plano agrupado por ventana (resultado.piezas)
 //   - TablaPanelesVidrio    → plan de vidrio (resultado.planVidrio)
 //   - EsquemaCorteVidrio    → esquema SVG a escala del plan de vidrio (resultado.planVidrio)
@@ -28,7 +28,7 @@ export interface PanelResultadosProps {
 export default function PanelResultados({ resultado }: PanelResultadosProps) {
   return (
     <section aria-label="Resultados de la optimización" className="panel-resultados">
-      <TablaTiras plan={resultado.planCorte} />
+
       <MapaCorteAluminio plan={resultado.planCorte} />
       <TablaCortesPorVentana piezas={resultado.piezas} />
       <TablaPanelesVidrio plan={resultado.planVidrio} />

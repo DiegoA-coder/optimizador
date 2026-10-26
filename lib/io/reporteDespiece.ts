@@ -3,7 +3,7 @@
 // Reproduce en una cadena HTML (A4, @media print) el resumen y el mapa de corte 2D que la pantalla
 // `/despiece` muestra en vivo, para que el PDF sea fiel a lo que se ve en pantalla.
 //
-// Reutiliza el dominio existente: cada barra es una `Tira` (`@/lib/dominio/tira`), de la que se
+// Reutiliza el dominio existente: cada Perfil es una `Tira` (`@/lib/dominio/tira`), de la que se
 // leen piezas, lo usado (`usadoCm`) y el sobrante. No duplica la lógica de acomodo.
 
 import { cm } from "@/lib/dominio/parametros";
@@ -19,11 +19,11 @@ export interface DatosReporteDespiece {
   aprovechamientoPct: number;
 }
 
-/** Ancho del dibujo de cada barra en el reporte (px) y su alto fijo. */
+/** Ancho del dibujo de cada Perfil en el reporte (px) y su alto fijo. */
 const ANCHO_PX = 760;
 const ALTO_BARRA_PX = 54;
 
-// Paleta alineada con el componente `MapaCorteBarras` para que el PDF se vea igual que la pantalla.
+// Paleta alineada con el componente `MapaCortePerfils` para que el PDF se vea igual que la pantalla.
 const COLOR_BARRA_FILL = "#ece3cc";
 const COLOR_BARRA_STROKE = "#b9ad8a";
 const COLOR_SOBRA_FILL = "#f6cccc";
@@ -46,7 +46,7 @@ function esc(valor: string): string {
 }
 
 /**
- * Dibuja una barra y sus cortes a escala en SVG, con el sobrante resaltado al final.
+ * Dibuja una Perfil y sus cortes a escala en SVG, con el sobrante resaltado al final.
  * La posición inicial de cada corte se acumula sumando longitud + sierra, igual que el consumo
  * real de la tira, de modo que el dibujo coincide con el modelo de capacidad.
  */

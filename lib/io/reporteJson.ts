@@ -23,7 +23,7 @@ import {
   type ResultadoCompleto,
 } from "../dominio/modelos";
 
-/** Escapa comillas y barras invertidas para incrustar un valor en una cadena JSON. */
+/** Escapa comillas y Perfils invertidas para incrustar un valor en una cadena JSON. */
 function esc(valor: string): string {
   return valor.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }

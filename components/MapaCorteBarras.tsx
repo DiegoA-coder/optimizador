@@ -1,28 +1,28 @@
 "use client";
 
-// components/MapaCorteBarras.tsx
-// Dibuja el mapa de corte 1D (despiece por perfil) a escala en SVG: una fila por barra, con sus
+// components/MapaCortePerfils.tsx
+// Dibuja el mapa de corte 1D (despiece por perfil) a escala en SVG: una fila por Perfil, con sus
 // cortes colocados de izquierda a derecha y el sobrante marcado al final. Es el equivalente, para
-// barras lineales horizontales, del `EsquemaCorteVidrio` (que dibuja paneles 2D de vidrio).
+// Perfils lineales horizontales, del `EsquemaCorteVidrio` (que dibuja paneles 2D de vidrio).
 //
-// Reutiliza el dominio existente: cada barra es una `Tira` (`@/lib/dominio/tira`), de la que se
+// Reutiliza el dominio existente: cada Perfil es una `Tira` (`@/lib/dominio/tira`), de la que se
 // leen sus piezas, lo usado (`usadoCm`) y el sobrante (`restanteCm`). La posición inicial de cada
 // corte se acumula sumando longitud + sierra, igual que el modelo de capacidad de la tira, de modo
-// que el dibujo coincide con el consumo real de la barra.
+// que el dibujo coincide con el consumo real de la Perfil.
 
 import { cm } from "@/lib/dominio/parametros";
 import { Tira, usadoCm } from "@/lib/dominio/tira";
 
 export interface MapaCorteBarrasProps {
-  /** Barras ya optimizadas (todas del mismo largo/sierra). */
+  /** Perfils ya optimizadas (todas del mismo largo/sierra). */
   tiras: Tira[];
-  /** Largo nominal de la barra en cm (para dibujar el fondo y el sobrante a escala). */
+  /** Largo nominal de la Perfil en cm (para dibujar el fondo y el sobrante a escala). */
   largoBarraCm: number;
   /** Sierra (kerf) en cm: separa visualmente un corte del siguiente. */
   sierraCm: number;
 }
 
-/** Ancho máximo (px) del dibujo de una barra; el alto es fijo. */
+/** Ancho máximo (px) del dibujo de una Perfil; el alto es fijo. */
 const ANCHO_PX = 820;
 const ALTO_BARRA_PX = 54;
 
@@ -35,7 +35,7 @@ const COLOR_PIEZA_STROKE = "#2f6ca3";
 const COLOR_ETQ = "#0f2f44";
 const COLOR_MED = "#1a1a1a";
 
-/** Tono de relleno de cada corte, rotando por una paleta suave según su posición en la barra. */
+/** Tono de relleno de cada corte, rotando por una paleta suave según su posición en la Perfil. */
 function colorPieza(indice: number): string {
   const colores = ["#cfe3f7", "#d6f0d6", "#f7e6c8", "#e6d6f0", "#f7d6e0", "#d6f0ee", "#e8ecc8"];
   return colores[indice % colores.length];

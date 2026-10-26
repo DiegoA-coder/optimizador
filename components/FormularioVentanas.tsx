@@ -138,30 +138,6 @@ export default function FormularioVentanas({
         <button type="button" onClick={agregarFila} style={estiloBoton}>
           Agregar ventana
         </button>
-        <button type="button" onClick={abrirSelectorArchivo} style={estiloBotonSecundario}>
-          Importar JSON
-        </button>
-        <button
-          type="button"
-          onClick={onExportarJson}
-          disabled={ventanas.length === 0}
-          style={{
-            ...estiloBotonSecundario,
-            opacity: ventanas.length === 0 ? 0.5 : 1,
-            cursor: ventanas.length === 0 ? "not-allowed" : "pointer",
-          }}
-        >
-          Exportar JSON
-        </button>
-        {/* Input de archivo oculto que dispara la importación. */}
-        <input
-          ref={inputArchivo}
-          type="file"
-          accept=".json,application/json"
-          onChange={alElegirArchivo}
-          style={{ display: "none" }}
-          aria-hidden="true"
-        />
       </div>
 
       {ventanas.length === 0 ? (

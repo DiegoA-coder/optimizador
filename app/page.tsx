@@ -26,8 +26,8 @@ const PANTALLAS: Pantalla[] = [
     href: "/despiece",
     titulo: "Despiece por perfil (1D)",
     descripcion:
-      "Carga las medidas de la barra y las piezas necesarias, y obtén el mapa de corte en 2D con " +
-      "el acomodo óptimo, el usado y el sobrante de cada barra.",
+      "Carga las medidas de la Perfil y las piezas necesarias, y obtén el mapa de corte en 2D con " +
+      "el acomodo óptimo, el usado y el sobrante de cada Perfil.",
   },
 ];
 

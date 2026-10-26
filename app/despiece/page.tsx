@@ -1,15 +1,15 @@
 "use client";
 
 // app/despiece/page.tsx
-// Pantalla "Despiece por perfil (1D)": el usuario carga el largo de la barra, la sierra (kerf) y
+// Pantalla "Despiece por perfil (1D)": el usuario carga el largo de la Perfil, la sierra (kerf) y
 // la lista de piezas necesarias (etiqueta, longitud, cantidad), y obtiene el mapa de corte en 2D
-// con el acomodo óptimo de cada barra, lo usado y el sobrante.
+// con el acomodo óptimo de cada Perfil, lo usado y el sobrante.
 //
 // Reutiliza el dominio existente SIN duplicar lógica:
-//   - `optimizar` (@/lib/dominio/optimizador): acomoda las piezas en barras (Best Fit Decreasing).
-//   - `Tira` / `usadoCm` (@/lib/dominio/tira): barra con su capacidad, lo usado y el sobrante.
-//   - `crearParametros` (@/lib/dominio/parametros): valida largo de barra y sierra.
-//   - `MapaCorteBarras` (@/components): dibuja el mapa de corte 2D a escala.
+//   - `optimizar` (@/lib/dominio/optimizador): acomoda las piezas en Perfils (Best Fit Decreasing).
+//   - `Tira` / `usadoCm` (@/lib/dominio/tira): Perfil con su capacidad, lo usado y el sobrante.
+//   - `crearParametros` (@/lib/dominio/parametros): valida largo de Perfil y sierra.
+//   - `MapaCortePerfils` (@/components): dibuja el mapa de corte 2D a escala.
 //
 // Es independiente de ventanas, reglas y vidrio: trabaja directo con las piezas capturadas.
 
@@ -33,7 +33,7 @@ interface FilaPieza {
   cantidad: string;
 }
 
-/** Resultado del cálculo que se muestra: las barras y sus agregados. */
+/** Resultado del cálculo que se muestra: las Perfils y sus agregados. */
 interface Resultado {
   tiras: Tira[];
   largoBarraCm: number;
@@ -78,7 +78,7 @@ function filasAPiezas(filas: FilaPieza[]): Pieza[] {
   return piezas;
 }
 
-/** Calcula el porcentaje de aprovechamiento: longitud útil cortada / longitud total de las barras. */
+/** Calcula el porcentaje de aprovechamiento: longitud útil cortada / longitud total de las Perfils. */
 function aprovechamiento(tiras: Tira[], largoBarraCm: number): number {
   if (tiras.length === 0) return 0;
   const utilCortado = tiras.reduce(
@@ -118,7 +118,7 @@ export default function PaginaDespiece() {
 
   /**
    * Valida los parámetros y las piezas, ejecuta el optimizador del dominio y guarda el resultado.
-   * Cualquier `Error` de validación (parámetros, longitudes, pieza que excede la barra) se muestra
+   * Cualquier `Error` de validación (parámetros, longitudes, pieza que excede la Perfil) se muestra
    * en el banner sin romper la pantalla.
    */
   function calcular() {
@@ -126,7 +126,7 @@ export default function PaginaDespiece() {
       const parametros = crearParametros(Number(largoBarra), Number(sierra));
       const piezas = filasAPiezas(filas);
 
-      // Validación explícita: una pieza más larga que la barra no cabe en ninguna.
+      // Validación explícita: una pieza más larga que la Perfil no cabe en ninguna.
       for (const pieza of piezas) {
         if (pieza.longitudCm > parametros.largoTiraCm) {
           throw new Error(
@@ -361,7 +361,7 @@ export default function PaginaDespiece() {
               }}
             >
               <span>
-                Barras: <strong>{resultado.tiras.length}</strong>
+                Perfile(s): <strong>{resultado.tiras.length}</strong>
               </span>
               <span>
                 Piezas: <strong>{resultado.totalPiezas}</strong>
