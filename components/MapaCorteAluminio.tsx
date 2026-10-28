@@ -52,7 +52,7 @@ export default function MapaCorteAluminio({ plan }: MapaCorteAluminioProps) {
                 <p
                   style={{
                     margin: "0.25rem 0",
-                    fontSize: "0.85rem",
+                    fontSize: "1.2rem",
                     fontWeight: 600,
                     color: "var(--color-texto-tenue)",
                   }}
