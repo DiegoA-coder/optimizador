@@ -109,10 +109,10 @@ export default function TablaPanelesVidrio({ plan }: TablaPanelesVidrioProps) {
 
   return (
     <section className="tabla-paneles-vidrio">
-      <h2>Paneles de vidrio</h2>
+      <h2>Mapa de cortes vidrio</h2>
 
       <p className="tabla-paneles-vidrio__resumen">
-        Panel: {cm(plan.parametros.panelAnchoCm)} x {cm(plan.parametros.panelAltoCm)} cm · Paneles:{" "}
+        Hoja: {cm(plan.parametros.panelAnchoCm)} x {cm(plan.parametros.panelAltoCm)} cm · Total de hojas:{" "}
         {total} · Aprovechamiento: {cm(aprovechamientoPct(plan))}%
       </p>
 
@@ -120,44 +120,12 @@ export default function TablaPanelesVidrio({ plan }: TablaPanelesVidrioProps) {
         <p className="tabla-paneles-vidrio__vacio">No hay paneles de vidrio en el resultado.</p>
       ) : (
         <>
-          <table className="tabla-paneles-vidrio__tabla">
-            <thead>
-              <tr>
-                <th scope="col">Panel</th>
-                <th scope="col">Piezas</th>
-                <th scope="col">Área utilizada (cm²)</th>
-                <th scope="col">Desperdicio (cm²)</th>
-                <th scope="col">Aprovechamiento (%)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paneles.map((panel, indice) => (
-                <tr key={indice}>
-                  <th scope="row">Panel {indice + 1}</th>
-                  <td>{panel.piezas.length}</td>
-                  <td>{cm(areaUtilizadaCm2(panel))}</td>
-                  <td>{cm(areaDesperdicioCm2(panel))}</td>
-                  <td>{cm(aprovechamientoPanelPct(panel))}</td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th scope="row">Total</th>
-                <td>{paneles.reduce((acc, p) => acc + p.piezas.length, 0)}</td>
-                <td>{cm(areaUtilizadaTotalCm2(plan))}</td>
-                <td>{cm(areaDesperdicioTotalCm2(plan))}</td>
-                <td>{cm(aprovechamientoPct(plan))}</td>
-              </tr>
-            </tfoot>
-          </table>
-
           {/* Lista de los vidrios a cortar por panel, identificados por letra. */}
           <h3 style={{ marginTop: "1.25rem" }}>Vidrios a cortar</h3>
           {paneles.map((panel, indice) => (
             <div key={indice} style={{ marginBottom: "1rem" }}>
               <h4 style={{ margin: "0.5rem 0 0.25rem" }}>
-                Panel {indice + 1} — {panel.piezas.length} pieza(s)
+                Hoja {indice + 1} — {panel.piezas.length} pieza(s)
               </h4>
               <ListaCortesPanel panel={panel} />
             </div>

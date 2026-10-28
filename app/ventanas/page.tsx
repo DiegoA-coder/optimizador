@@ -319,17 +319,6 @@ export default function PaginaVentanas() {
           </div>
         )}
 
-        <section aria-label="Ventanas">
-          <h2>Ventanas — {ETIQUETA_PERFIL[perfilActivo]}</h2>
-          <FormularioVentanas
-            ventanas={estadoActivo.ventanas}
-            perfil={perfilActivo}
-            onCambio={cambiarVentanas}
-            onImportarJson={importarVentanas}
-            onExportarJson={exportarVentanas}
-          />
-        </section>
-
         <PanelConfiguracion>
           <FormularioParametros
             parametros={estado.parametros}
@@ -345,6 +334,19 @@ export default function PaginaVentanas() {
             perfilFiltro={perfilActivo}
           />
         </PanelConfiguracion>
+
+        <section aria-label="Ventanas">
+          <h2>Ventanas — {ETIQUETA_PERFIL[perfilActivo]}</h2>
+          <FormularioVentanas
+            ventanas={estadoActivo.ventanas}
+            perfil={perfilActivo}
+            onCambio={cambiarVentanas}
+            onImportarJson={importarVentanas}
+            onExportarJson={exportarVentanas}
+          />
+        </section>
+
+
 
         <div style={{ margin: "1.5rem 0" }}>
           <BotonOptimizar onOptimizar={optimizar} etiqueta={`Optimizar ${ETIQUETA_PERFIL[perfilActivo]}`} />

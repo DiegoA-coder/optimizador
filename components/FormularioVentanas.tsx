@@ -134,12 +134,6 @@ export default function FormularioVentanas({
 
   return (
     <div>
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
-        <button type="button" onClick={agregarFila} style={estiloBoton}>
-          Agregar ventana
-        </button>
-      </div>
-
       {ventanas.length === 0 ? (
         <p>No hay ventanas. Usa &quot;Agregar ventana&quot; o importa un archivo JSON.</p>
       ) : (
@@ -166,6 +160,12 @@ export default function FormularioVentanas({
           </tbody>
         </table>
       )}
+
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", marginTop: "0.75rem", flexWrap: "wrap" }}>
+        <button type="button" onClick={agregarFila} style={estiloBoton}>
+          Agregar ventana
+        </button>
+      </div>
 
       {/* Resumen de validación: avisa si alguna fila tiene datos inválidos. */}
       {invalidas > 0 && (

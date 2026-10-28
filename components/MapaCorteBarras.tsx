@@ -56,7 +56,7 @@ export default function MapaCorteBarras({ tiras, largoBarraCm, sierraCm }: MapaC
       {tiras.map((tira, i) => (
         <figure key={i} style={{ margin: 0 }}>
           <figcaption style={{ fontSize: "0.85rem", marginBottom: 4, color: "var(--color-texto-tenue)" }}>
-            Barra {i + 1} — usado {cm(usadoCm(tira))} cm · sobrante {cm(tira.restanteCm)} cm
+            Tira {i + 1} — usado {cm(usadoCm(tira))} cm · sobrante {cm(tira.restanteCm)} cm
           </figcaption>
           <BarraSvg tira={tira} largoBarraCm={largoBarraCm} sierraCm={sierraCm} escala={escala} indice={i + 1} />
         </figure>
