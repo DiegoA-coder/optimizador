@@ -1,6 +1,6 @@
 # Optimizador de Corte (aluminio + vidrio)
 
-Aplicación web para optimizar el corte de **perfiles de aluminio (1D)** y **paneles de vidrio (2D)** a partir de las medidas de las ventanas a fabricar. Es un port a **Next.js + TypeScript** del proyecto original en Java, conservando la paridad numérica y de orden de los algoritmos del dominio.
+Aplicación web para optimizar el corte de **perfiles de aluminio (1D)** y **paneles de vidrio (2D)** a partir de las medidas de las ventanas a fabricar. 
 
 Todo el cálculo ocurre en el **cliente**: no hay backend ni base de datos. Los datos se capturan en la interfaz, se procesan con la lógica de dominio y los reportes se generan y descargan en el navegador.
 
